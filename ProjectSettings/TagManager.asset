@@ -14,7 +14,48 @@ TagManager:
   - QDSUIPrimaryButton
   - QDSUIAccentColor
   - QDSUIDestructiveButton
-  - ALA
+  - UIController
+  - ProteinController
+  - Back
+  - Chain A
+  - Chain B
+  - Chain C
+  - Chain D
+  - Alanine
+  - Arginine
+  - Asparagine
+  - Aspartic Acid
+  - Cysteine
+  - Glutamic Acid
+  - Glutamine
+  - Glycine
+  - Histidine
+  - Isoleucine
+  - Leucine
+  - Lysine
+  - Methionine
+  - Phenylalanine
+  - Proline
+  - Serine
+  - Threonine
+  - Tryptophan
+  - Tyrosine
+  - Valine
+  - Magnesium
+  - Phosphorus
+  - Non-Amino Acid Element
+  - 1MH1
+  - Undefined
+  - Oxygen
+  - Carbon
+  - Nitrogen
+  - Hydrogen
+  - Sulfur
+  - 8H1B
+  - Folds
+  - Sheets
+  - Helix
+  - Loops
   layers:
   - Default
   - TransparentFX
@@ -22,11 +63,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Chains
+  - Residues
+  - Elements
+  - Protein
+  - Folds
   - 
   - 
   - 
