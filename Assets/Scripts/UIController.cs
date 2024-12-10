@@ -83,16 +83,15 @@ public class UIController: MonoBehaviour
         if (viewTypeSelection.name.Equals("Amino Acids"))
         {
             viewType = 1;
-            resetTransform();
         }
         else
         {
             viewType = 2;
-            viewTypeView.text = viewTypeSelection.name; // Update viewType info
-            resetTransform();
-            GameObject protein = proteinController.proteinSelection;
-            proteinController.findSimilarProtein(protein);
         }
+        viewTypeView.text = viewTypeSelection.name; // Update viewType info
+        resetTransform();
+        GameObject protein = proteinController.proteinSelection;
+        proteinController.findSimilarProtein(protein);
     }
 
     // Display current selection
