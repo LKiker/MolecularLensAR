@@ -96,6 +96,11 @@ public class ProteinController : MonoBehaviour
         uiController.updateCurrentSelectionMode();
     }
 
+    // Select tutorial 1 sphere to go to tutorial 1 success dialog
+    public void selectSphere()
+    {
+        uiController.enableTutorial1Success();
+    }
 
     // Toggles components of object but keeps it active
     private void toggleComponents(Transform obj, bool state)

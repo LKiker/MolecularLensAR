@@ -10,7 +10,20 @@ using UnityEditor;
 
 public class UIController: MonoBehaviour
 {
+    [SerializeField] private GameObject canvas;
+    [SerializeField] private GameObject tut1Button;
+    [SerializeField] private GameObject tut2Button;
+    [SerializeField] private GameObject leftContainer;
+    [SerializeField] private GameObject rightContainer;
     [SerializeField] private GameObject middleContainer;
+    [SerializeField] private GameObject tutorialContainer;
+    [SerializeField] private GameObject tutorialDialog;
+    [SerializeField] private GameObject tutorial1Object;
+    [SerializeField] private GameObject tutorial1Sphere;
+    [SerializeField] private GameObject tutorial2Object;
+    [SerializeField] private GameObject tutorial2Cube;
+    [SerializeField] private GameObject tutorial1Success;
+    [SerializeField] private GameObject tutorial2Success;
     [SerializeField] private GameObject menuExpanded;
     [SerializeField] private GameObject proteinModel;
     [SerializeField] private TextMeshProUGUI selection;
@@ -25,6 +38,7 @@ public class UIController: MonoBehaviour
     void Start()
     {
         proteinController = GameObject.FindGameObjectWithTag("ProteinController").GetComponent<ProteinController>();
+        proteinModel.SetActive(false); // This ensures everything works before hiding the protein model
     }
 
     // Updates current selection mode in the info box
@@ -110,6 +124,44 @@ public class UIController: MonoBehaviour
             menuExpanded.SetActive(true);
     }
 
+    // Enable/Disable default UI
+    public void toggleDefaultUI()
+    {
+        Debug.Log("Active Self: " + leftContainer.activeSelf);
+        if (leftContainer.activeSelf == true)
+        {
+            leftContainer.SetActive(false);
+            rightContainer.SetActive(false);
+        }
+        else
+        {
+            rightContainer.SetActive(true);
+            leftContainer.SetActive(true);
+        }
+    }
+
+    // Toggle tutorial container 
+    public void toggleTutorialContainer()
+    {
+        Debug.Log("Active Self: " + tutorialContainer.activeSelf);
+        if (tutorialContainer.activeSelf == true)
+        {
+            tutorial2Success.SetActive(false);
+            tutorialContainer.SetActive(false);
+        }   
+        else
+        { 
+            tutorialContainer.SetActive(true);
+            tutorialDialog.SetActive(true);
+        }
+
+        toggleDefaultUI();
+        if (proteinModel.activeSelf == true)
+            proteinModel.SetActive(false);
+        else
+            proteinModel.SetActive(true);
+    }
+
     // Enable/Disable middle container which contains quit dialog and pointable surface
     public void toggleQuitDialog()
     {
@@ -118,6 +170,68 @@ public class UIController: MonoBehaviour
             middleContainer.SetActive(false);
         else
             middleContainer.SetActive(true);
+    }
+
+    // Toggle Tutorial 1
+    public void toggleTutorial1()
+    {
+        Debug.Log("Active Self: " + tutorial1Object.activeSelf);
+        if (tutorial1Object.activeSelf == false)
+        {
+            tutorial1Object.SetActive(true);
+            tutorialDialog.SetActive(false);
+        }
+        else
+            tutorial1Object.SetActive(false);
+    }
+
+    // Enable tutorial 1 success dialog
+    public void enableTutorial1Success()
+    {
+        tut1Button.SetActive(true);
+        tutorial1Object.SetActive(false);
+        tutorial1Sphere.SetActive(false);
+        canvas.transform.position += new Vector3(-0.15f, 0f, -0.3f);
+        tutorial1Success.SetActive(true);
+    }
+
+    // Toggle Tutorial 2
+    public void toggleTutorial2()
+    {
+        Debug.Log("Active Self: " + tutorial2Object.activeSelf);
+        if (tutorial2Object.activeSelf == false)
+        {
+            tutorial2Object.SetActive(true);
+            tutorial1Success.SetActive(false);
+        }
+        else
+            tutorial2Object.SetActive(false);
+    }
+
+    // Enable tutorial 2 success dialog
+    public void enableTutorial2Success()
+    {
+        tut2Button.SetActive(true);
+        tutorial2Object.SetActive(false);
+        tutorial2Cube.SetActive(false);
+        canvas.transform.position += new Vector3(-0.15f, 0f, -0.3f);
+        tutorial2Success.SetActive(true);
+    }
+
+    // Makes sphere active for tutorial 1 try it
+    public void tryTutorial1()
+    {
+        tutorial1Sphere.SetActive(true);
+        canvas.transform.position += new Vector3(0.15f, 0f, 0.3f);
+        tut1Button.SetActive(false);
+    }
+
+    // Makes cube active for tutorial 2 try it
+    public void tryTutorial2()
+    {
+        tutorial2Cube.SetActive(true);
+        canvas.transform.position += new Vector3(0.15f, 0f, 0.3f);
+        tut2Button.SetActive(false);
     }
 
     // Resets the transform of the parent protein model object
