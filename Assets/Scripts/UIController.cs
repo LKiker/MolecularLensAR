@@ -223,7 +223,7 @@ public class UIController: MonoBehaviour
     {
         tutorial1Sphere.SetActive(true);
         canvas.transform.position += new Vector3(0.15f, 0f, 0.3f);
-        tut1Button.SetActive(false);
+        tut1Button.SetActive(false);a
     }
 
     // Makes cube active for tutorial 2 try it

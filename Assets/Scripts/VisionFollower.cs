@@ -13,7 +13,6 @@ public class VisionFollower : MonoBehaviour
     [SerializeField] private float visionDistance = .37f;
     [SerializeField] private float fovTolerance = .5f;
     public bool isUI = false;
-
     private bool isCentered = false;
     private Vector3 velocity = Vector3.zero;
 
