@@ -7,6 +7,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEditor;
+using System.Collections.Generic;
 
 public class UIController: MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class UIController: MonoBehaviour
     [SerializeField] private GameObject tutorial2Cube;
     [SerializeField] private GameObject tutorial1Success;
     [SerializeField] private GameObject tutorial2Success;
+    [SerializeField] private GameObject quizPanelContainer;
     [SerializeField] private GameObject menuExpanded;
     [SerializeField] private GameObject proteinModel;
     [SerializeField] private TextMeshProUGUI selection;
@@ -32,13 +34,28 @@ public class UIController: MonoBehaviour
     [SerializeField] private TextMeshProUGUI hoveringElement;
     public int viewType = 1;
     ProteinController proteinController;
-    
+    [SerializeField] private QuizManager quizManager;
+    [SerializeField] private List<InfoSO> PDBinfo;
+    [SerializeField] private TMPro.TextMeshProUGUI infoText;
+    private int currentInfoIndex = 0;
+
 
     // Start is called before the first frame update
     void Start()
     {
         proteinController = GameObject.FindGameObjectWithTag("ProteinController").GetComponent<ProteinController>();
         proteinModel.SetActive(false); // This ensures everything works before hiding the protein model
+        leftContainer.SetActive(false);
+        rightContainer.SetActive(false);
+        middleContainer.SetActive(false);
+        tutorial1Success.SetActive(false);
+        tutorial2Success.SetActive(false);
+        menuExpanded.SetActive(false);
+
+        tutorialContainer.SetActive(true);
+        tutorialDialog.SetActive(true);
+
+        displayPDBInfo();
     }
 
     // Updates current selection mode in the info box
@@ -79,9 +96,19 @@ public class UIController: MonoBehaviour
     }
 
     // Display info dialog about selected protein element
-    public void displayProteinInfo()
+    public void displayPDBInfo()
     {
-        // To-do
+        InfoSO currentInfo = PDBinfo[0];
+        if (proteinController.proteinSelection.tag.Equals("1BNA"))
+        {
+            currentInfo = PDBinfo[0];
+        }
+        else
+        {
+            currentInfo = PDBinfo[1];
+        }
+        infoText.text = currentInfo.PDBinformation[0];
+
     }
 
     // Select protein from the proteinList
@@ -112,6 +139,7 @@ public class UIController: MonoBehaviour
     public void displaySelection()
     {
         selection.text = proteinController.proteinSelection.tag;
+        displayPDBInfo();
     }
 
     // Enable/Disable extended menu
@@ -223,7 +251,7 @@ public class UIController: MonoBehaviour
     {
         tutorial1Sphere.SetActive(true);
         canvas.transform.position += new Vector3(0.15f, 0f, 0.3f);
-        tut1Button.SetActive(false);a
+        tut1Button.SetActive(false);
     }
 
     // Makes cube active for tutorial 2 try it
@@ -257,5 +285,11 @@ public class UIController: MonoBehaviour
     {
         Application.Quit();
         Debug.Log("Application has quit");
+    }
+
+    public void startQuiz()
+    {
+        menuExpanded.SetActive(false);
+        quizManager.StartQuiz();
     }
 }

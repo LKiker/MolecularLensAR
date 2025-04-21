@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa96209bda5496429135909f22042ac, type: 3}
+  m_Name: 1BNA info
+  m_EditorClassIdentifier: 
+  PDBName: 1BNA
+  PDBinformation:
+  - The 1BNA structure represents the B-form of double-stranded DNA, often referred
+    to as canonical B-DNA.
+  - This is the most common form of DNA found in cells under physciological conditions,
+    and it serves as the textbook example of DNA's iconic double helix shape.
+  - 1BNA is not a protein, but a short segment of synthetic DNA.
+  - The B-form DNA is stabilized by hydrogen bonding between base pairs and base
+    stacking interactions.
+  - A sugar-phosphate backbone stablizes the outer framework, while hydrogen bonds
+    between bases hold the strands together.
+  - 'Key Structural Features: - Right-handed B-DNA double helix, with about 10.5
+    base pairs per helical turn, and a slight bend in the helix axis.'
+  - '- Has major and minor grooves that allow proteins and enzymes to interact with
+    specific DNA sequences (this is how the two ends of the helix overlap and interlock)'

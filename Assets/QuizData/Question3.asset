@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57194c93402219b46bb93dac0e8ca118, type: 3}
+  m_Name: Question3
+  m_EditorClassIdentifier: 
+  questionText: (1MH1) Which structural element likely contributes the most to this
+    protein's stability?
+  correctAnswerText: 'Correct! Beta sheets are a common secondary structure in proteins,
+    formed by hydrogen bonds between segments of the polypeptide chain. These hydrogen
+    bonds, along with hydrophobic interactions, provide significant stabilization
+    to the structure. '
+  answers:
+  - Alpha Helices
+  - Beta Sheets
+  - 'Disordered Regions '
+  - Binding Pockets
+  correctAnswerIndex: 1

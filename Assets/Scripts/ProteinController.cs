@@ -20,6 +20,7 @@ public class ProteinController : MonoBehaviour
     private Stack<GameObject> selections = new Stack<GameObject>();
     public int selectionMode { get; private set; } = 0;
     UIController uiController;
+    //[SerializeField] private UIController uiController;
 
     public Material highlightMaterial;
     private Material originalMaterial;

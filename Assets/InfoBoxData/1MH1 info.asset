@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa96209bda5496429135909f22042ac, type: 3}
+  m_Name: 1MH1 info
+  m_EditorClassIdentifier: 
+  PDBName: 1MH1
+  PDBinformation:
+  - 1MH1 structure is a complex of DNA plymerase 1 (POL 1) with a DNA fragment.
+  - The active site of 1MH1 is more open and flexible compared to other polymerases.
+    This allows it to fit unusual or damaged DNA templates -
+  - like bent or broken rgeions that other polymerases cannot hanndle (adapts  its
+    shape to DNA).
+  - Beta Sheets contribute the most to the proteins core stability.
+  - These flat, sheet-like arrangements of amino acids from hydrogen bonds between
+    strands,
+  - ' creating a rigid scaffold that supports the overall fold of the protein.'
+  - Alpha helices provide flexibility and binding pockets to enable function.
