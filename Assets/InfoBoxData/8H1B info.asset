@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fa96209bda5496429135909f22042ac, type: 3}
+  m_Name: 8H1B info
+  m_EditorClassIdentifier: 
+  PDBName: 8H1B
+  PDBinformation:
+  - 8H1B represents the high-resolution crystal structure of the MnmM methyltransferase
+    from Staphylococcus aureus
+  - This structure captures the enzyme complexed with S-adenosylmethionine (SAM)
+    and a tRNA anticodon stem-loop (ASL), providing insights into its role in tRNA
+    modification.
+  - MnmM is a methyltransferase, which means it adds a small chemical group (a methyl
+    group) to molecules.
+  - Specifically, it modifies a part of tRNA, which is a molecule that helps translate
+    genetic instructions (from mRNA) into proteins.
+  - The modification occurs at a special spot in the tRNA called the wobble position,
+    which affects how accurately the tRNA can pair with mRNA during protein synthesis.

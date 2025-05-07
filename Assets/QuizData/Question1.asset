@@ -21,3 +21,5 @@ MonoBehaviour:
   - Protein
   - Cell
   correctAnswerIndex: 0
+  questionAudio: {fileID: 8300000, guid: 8074c92cfb30a8a4195ebcce5fecad7c, type: 3}
+  correctAnswerAudio: {fileID: 8300000, guid: 027eabf42a0916944ab4ad1af5cbe9b0, type: 3}

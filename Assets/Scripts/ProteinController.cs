@@ -20,8 +20,6 @@ public class ProteinController : MonoBehaviour
     private Stack<GameObject> selections = new Stack<GameObject>();
     public int selectionMode { get; private set; } = 0;
     UIController uiController;
-    //[SerializeField] private UIController uiController;
-
     public Material highlightMaterial;
     private Material originalMaterial;
 
@@ -45,8 +43,16 @@ public class ProteinController : MonoBehaviour
             selectionMode = 0;
         }
 
-        // Stop at last selection mode
-        if (selectionMode > 3 || (selectionMode > 2 && uiController.viewType == 2))
+        //// Stop at last selection mode
+        //if (selectionMode > 3 || (selectionMode > 2 && uiController.viewType == 2))
+        //    return;
+
+        // Get max depth of model layers
+        int maxDepth = 3;
+        ModelSettings settings = selectedObject.GetComponent<ModelSettings>();
+        if (settings != null)
+            maxDepth = settings.maxSelectionDepth;
+        if (selectionMode > maxDepth)
             return;
 
         // Set parent if parent exists
@@ -64,7 +70,7 @@ public class ProteinController : MonoBehaviour
 
         // Activate the selected object but hide its components from interaction
         selectedObject.SetActive(true);
-        if (selectionMode < 3) // if not at last selectionMode
+        if (selectionMode < maxDepth) // if not at last selectionMode
         {
             if (selectionMode > 0 && uiController.viewType == 2) // if not folding patterns
             {
@@ -91,10 +97,11 @@ public class ProteinController : MonoBehaviour
 
         // Display Selection on UI
         proteinSelection = selectedObject;
-        uiController.displaySelection();
+        string molType = settings.moleculeType;
+        uiController.displaySelection(molType);
 
-        // Update the selection mode display
-        uiController.updateCurrentSelectionMode();
+        //// Update the selection mode display
+        //uiController.updateCurrentSelectionMode();
     }
 
     // Select tutorial 1 sphere to go to tutorial 1 success dialog
@@ -166,45 +173,45 @@ public class ProteinController : MonoBehaviour
             if (selectionMode <= 1)
                 backButton.SetActive(false);
 
-            // Update the selection mode display
-            uiController.updateCurrentSelectionMode();
+            //// Update the selection mode display
+            //uiController.updateCurrentSelectionMode();
         }
     }
 
 
-    // Find view type variant of same protein
-    public void findSimilarProtein(GameObject protein)
-    {
-        // Set parent if parent exists
-        Transform parent;
-        if (protein.transform.parent != null)
-        {
-            parent = protein.transform.parent;
+    //// Find view type variant of same protein
+    //public void findSimilarProtein(GameObject protein)
+    //{
+    //    // Set parent if parent exists
+    //    Transform parent;
+    //    if (protein.transform.parent != null)
+    //    {
+    //        parent = protein.transform.parent;
 
-            // Activate all siblings of the protein (children of parent)
-            foreach (Transform sibling in parent)
-            {
-                sibling.gameObject.SetActive(true); // Show sibling GameObjects
-            }
-        }
+    //        // Activate all siblings of the protein (children of parent)
+    //        foreach (Transform sibling in parent)
+    //        {
+    //            sibling.gameObject.SetActive(true); // Show sibling GameObjects
+    //        }
+    //    }
 
-        // Tag of found protein should be same as current protein
-        String tagToFind = protein.tag;
-        // Deactivate protein to avoid finding itself
-        protein.SetActive(false);
-        GameObject foundProtein = GameObject.FindGameObjectWithTag(tagToFind);
+    //    // Tag of found protein should be same as current protein
+    //    String tagToFind = protein.tag;
+    //    // Deactivate protein to avoid finding itself
+    //    protein.SetActive(false);
+    //    GameObject foundProtein = GameObject.FindGameObjectWithTag(tagToFind);
 
-        // Deactivate all siblings of the protein (children of parent)
-        parent = protein.transform.parent;
-        foreach (Transform sibling in parent)
-        {
-            sibling.gameObject.SetActive(false); // Hide sibling GameObjects
-        }
-        foundProtein.SetActive(true); // ensure found protein is active 
+    //    // Deactivate all siblings of the protein (children of parent)
+    //    parent = protein.transform.parent;
+    //    foreach (Transform sibling in parent)
+    //    {
+    //        sibling.gameObject.SetActive(false); // Hide sibling GameObjects
+    //    }
+    //    foundProtein.SetActive(true); // ensure found protein is active 
 
-        // Select (show) found protein for manipulation
-        Select(foundProtein);
-    }
+    //    // Select (show) found protein for manipulation
+    //    Select(foundProtein);
+    //}
 
 
     // Highlight object

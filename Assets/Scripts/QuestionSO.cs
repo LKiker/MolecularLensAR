@@ -9,4 +9,6 @@ public class QuestionSO : ScriptableObject
     [TextArea] public string correctAnswerText;
     public string[] answers;
     public int correctAnswerIndex;
+    public AudioClip questionAudio;
+    public AudioClip correctAnswerAudio;
 }

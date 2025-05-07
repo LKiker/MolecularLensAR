@@ -16,7 +16,9 @@ public class QuizManager : MonoBehaviour
     [SerializeField] private GameObject correctAnswerUI;
     [SerializeField] private GameObject incorrectAnswerUI;
     [SerializeField] private GameObject quizPanel;
-    
+    [SerializeField] private GameObject quizComplete;
+    [SerializeField] private AudioSource quizAudio;
+
     private int currentQuestionIndex = 0;
 
     void Start()
@@ -26,11 +28,14 @@ public class QuizManager : MonoBehaviour
 
     public void StartQuiz()
     {
+        // Only show quizPanel in the UI
         currentQuestionIndex = 0;
-        DisplayCurrentQuestion();
         quizPanelContainer.SetActive(true);
+        quizComplete.SetActive(false);
+        quizPanel.SetActive(true);
+        DisplayCurrentQuestion();
     }
-
+    
     public void toggleQuestionView()
     {
         if (quizPanelContainer.activeSelf)
@@ -45,13 +50,19 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-
+    // Read SO question and answer data
     public void DisplayCurrentQuestion()
     {
         ResetToggles();
 
         QuestionSO currentQuestion = questions[currentQuestionIndex];
         questionText.text = currentQuestion.questionText;
+        // Play audio for question
+        if (currentQuestion.questionAudio != null)
+        {
+            quizAudio.clip = currentQuestion.questionAudio;
+            quizAudio.Play();
+        }
 
         for (int i = 0; i < answerButtons.Count; i++)
         {
@@ -59,7 +70,8 @@ public class QuizManager : MonoBehaviour
             {
                 answerButtons[i].gameObject.SetActive(true);
                 answerButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = currentQuestion.answers[i];
-                // Clear previous listeners to avoid stacking
+
+                // Clear previous to avoid stacking answer choices
                 answerButtons[i].onValueChanged.RemoveAllListeners();
 
                 int capturedIndex = i;
@@ -73,10 +85,12 @@ public class QuizManager : MonoBehaviour
             }
             else
             {
-                answerButtons[i].gameObject.SetActive(false); // Hide unused answer buttons
+                // Hide unused answer buttons
+                answerButtons[i].gameObject.SetActive(false); 
             }
 
         }
+
     }
 
     private void ResetToggles()
@@ -101,6 +115,12 @@ public class QuizManager : MonoBehaviour
             correctAnswerUI.SetActive(true);
 
             answerText.text = currentQuestion.correctAnswerText;
+            // Play audio for answer
+            if (currentQuestion.correctAnswerAudio != null)
+            {
+                quizAudio.clip = currentQuestion.correctAnswerAudio;
+                quizAudio.Play();
+            }
         }
         // Incorrect answer choice
         else
@@ -138,7 +158,15 @@ public class QuizManager : MonoBehaviour
 
     public void EndQuiz()
     {
+        quizPanel.SetActive(false);
+        quizComplete.SetActive(true);
+        Debug.Log("Quiz complete!");
+    }
+
+    public void CloseQuiz()
+    {
         quizPanelContainer.SetActive(false);
         Debug.Log("Quiz complete!");
     }
+    
 }

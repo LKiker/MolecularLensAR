@@ -8,6 +8,7 @@ using UnityEngine;
 using TMPro;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UIController: MonoBehaviour
 {
@@ -32,12 +33,14 @@ public class UIController: MonoBehaviour
     [SerializeField] private TextMeshProUGUI selectionModeView;
     [SerializeField] private TextMeshProUGUI viewTypeView;
     [SerializeField] private TextMeshProUGUI hoveringElement;
-    public int viewType = 1;
-    ProteinController proteinController;
     [SerializeField] private QuizManager quizManager;
     [SerializeField] private List<InfoSO> PDBinfo;
     [SerializeField] private TMPro.TextMeshProUGUI infoText;
+    [SerializeField] private TMPro.TextMeshProUGUI infoScrollText;
     private int currentInfoIndex = 0;
+    InfoSO currentInfo;
+    public int viewType = 1;
+    ProteinController proteinController;
 
 
     // Start is called before the first frame update
@@ -51,43 +54,41 @@ public class UIController: MonoBehaviour
         tutorial1Success.SetActive(false);
         tutorial2Success.SetActive(false);
         menuExpanded.SetActive(false);
-
         tutorialContainer.SetActive(true);
         tutorialDialog.SetActive(true);
-
         displayPDBInfo();
     }
 
-    // Updates current selection mode in the info box
-    public void updateCurrentSelectionMode()
-    {
-        switch (proteinController.selectionMode)
-        {
-            // Amino Acid Chains
-            case 1:
-                if (viewType == 1)
-                    selectionModeView.text = "Amino Acid Chains";
-                else
-                    selectionModeView.text = "Folding Patterns";
-                break;
-            // Amino Acid Residues
-            case 2:
-                if (viewType == 1)
-                    selectionModeView.text = "Amino Acid Residues";
-                else
-                    selectionModeView.text = "Folds";
-                break;
-            // Elements
-            case 3:
-            case 4:
-                if (viewType == 1)
-                    selectionModeView.text = "Elements";
-                break;
-            default:
-                selectionModeView.text = "";
-                break;
-        }
-    }
+    //// Updates current selection mode in the info box
+    //public void updateCurrentSelectionMode()
+    //{
+    //    switch (proteinController.selectionMode)
+    //    {
+    //        // Amino Acid Chains
+    //        case 1:
+    //            if (viewType == 1)
+    //                selectionModeView.text = "Amino Acid Chains";
+    //            else
+    //                selectionModeView.text = "Folding Patterns";
+    //            break;
+    //        // Amino Acid Residues
+    //        case 2:
+    //            if (viewType == 1)
+    //                selectionModeView.text = "Amino Acid Residues";
+    //            else
+    //                selectionModeView.text = "Folds";
+    //            break;
+    //        // Elements
+    //        case 3:
+    //        case 4:
+    //            if (viewType == 1)
+    //                selectionModeView.text = "Elements";
+    //            break;
+    //        default:
+    //            selectionModeView.text = "";
+    //            break;
+    //    }
+    //}
 
     // Updates the info box with the element being hovered by raycast
     public void updateHoveringElement(string hoveredMeshTag)
@@ -98,47 +99,85 @@ public class UIController: MonoBehaviour
     // Display info dialog about selected protein element
     public void displayPDBInfo()
     {
-        InfoSO currentInfo = PDBinfo[0];
         if (proteinController.proteinSelection.tag.Equals("1BNA"))
         {
+            // Check if model changed
+            if (currentInfo != PDBinfo[0])
+                currentInfoIndex = 0;
             currentInfo = PDBinfo[0];
         }
-        else
+        else if (proteinController.proteinSelection.tag.Equals("1MH1"))
         {
+            // Check if model changed
+            if (currentInfo != PDBinfo[1])
+                currentInfoIndex = 0;
             currentInfo = PDBinfo[1];
         }
-        infoText.text = currentInfo.PDBinformation[0];
+        else if (proteinController.proteinSelection.tag.Equals("8H1B"))
+        {
+            // Check if model changed
+            if (currentInfo != PDBinfo[2])
+                currentInfoIndex = 0;
+            currentInfo = PDBinfo[2];
+        }
+            // Update info with correct text
+            infoText.text = currentInfo.PDBinformation[currentInfoIndex];
+        infoScrollText.text = $"{currentInfoIndex + 1}/{currentInfo.PDBinformation.Length}";
 
+    }
+
+    // Scrolls the PDB information to the right
+    public void rightScrollInfo()
+    {
+        if(currentInfoIndex < currentInfo.PDBinformation.Length)
+        {
+            currentInfoIndex++;
+            displayPDBInfo();
+        }
+    }
+
+    // Scrolls the PDB information to the left
+    public void leftScrollInfo()
+    {
+        if (currentInfoIndex > 0)
+        {
+            currentInfoIndex--;
+            displayPDBInfo();
+        }
     }
 
     // Select protein from the proteinList
     public void selectProteinFromList(GameObject protein)
     {
-        resetTransform();
+        while (proteinController.selectionMode > 1)
+        {
+            proteinController.revertSelection();
+        }
         proteinController.Select(protein);
     }
 
-    // Select view type from the View Type list
-    public void selectViewTypeFromList(GameObject viewTypeSelection)
-    {
-        if (viewTypeSelection.name.Equals("Amino Acids"))
-        {
-            viewType = 1;
-        }
-        else
-        {
-            viewType = 2;
-        }
-        viewTypeView.text = viewTypeSelection.name; // Update viewType info
-        resetTransform();
-        GameObject protein = proteinController.proteinSelection;
-        proteinController.findSimilarProtein(protein);
-    }
+    //// Select view type from the View Type list
+    //public void selectViewTypeFromList(GameObject viewTypeSelection)
+    //{
+    //    if (viewTypeSelection.name.Equals("Amino Acids"))
+    //    {
+    //        viewType = 1;
+    //    }
+    //    else
+    //    {
+    //        viewType = 2;
+    //    }
+    //    viewTypeView.text = viewTypeSelection.name; // Update viewType info
+    //    resetTransform();
+    //    GameObject protein = proteinController.proteinSelection;
+    //    proteinController.findSimilarProtein(protein);
+    //}
 
     // Display current selection
-    public void displaySelection()
+    public void displaySelection(string molType = null)
     {
         selection.text = proteinController.proteinSelection.tag;
+        viewTypeView.text = molType;
         displayPDBInfo();
     }
 
@@ -287,6 +326,7 @@ public class UIController: MonoBehaviour
         Debug.Log("Application has quit");
     }
 
+    // Starts multiple choice quiz
     public void startQuiz()
     {
         menuExpanded.SetActive(false);
