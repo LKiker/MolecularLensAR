@@ -1,3 +1,7 @@
+/* Molecule Lens AR - QuizManager.cs
+ * 
+ * Functions that control the quiz module.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -7,8 +11,8 @@ using TMPro;
 public class QuizManager : MonoBehaviour
 {
     [SerializeField] private List<QuestionSO> questions;
-    [SerializeField] private TMPro.TextMeshProUGUI questionText;
-    [SerializeField] private TMPro.TextMeshProUGUI answerText;
+    [SerializeField] private TextMeshProUGUI questionText;
+    [SerializeField] private TextMeshProUGUI answerText;
     [SerializeField] private List<Toggle> answerButtons;
     [SerializeField] private GameObject quizPanelContainer;
     [SerializeField] private GameObject showQuestionButton;
@@ -57,6 +61,26 @@ public class QuizManager : MonoBehaviour
 
         QuestionSO currentQuestion = questions[currentQuestionIndex];
         questionText.text = currentQuestion.questionText;
+
+        // Display appropriate model for the question
+        GameObject root = GameObject.Find("ProteinModel");
+        if (root != null)
+        {
+            Transform[] allChildren = root.GetComponentsInChildren<Transform>(true); // include inactive children
+
+            for (int i = 0; i < allChildren.Length; i++)
+            {
+                if (allChildren[i].name == currentQuestion.proteinName)
+                {
+                    FindObjectOfType<UIController>().selectProteinFromList(allChildren[i].gameObject);
+                    break;
+                }
+            }
+        }
+        else
+            Debug.LogWarning("ProteinModel not found in scene.");
+
+
         // Play audio for question
         if (currentQuestion.questionAudio != null)
         {
@@ -88,9 +112,7 @@ public class QuizManager : MonoBehaviour
                 // Hide unused answer buttons
                 answerButtons[i].gameObject.SetActive(false); 
             }
-
         }
-
     }
 
     private void ResetToggles()
@@ -166,7 +188,5 @@ public class QuizManager : MonoBehaviour
     public void CloseQuiz()
     {
         quizPanelContainer.SetActive(false);
-        Debug.Log("Quiz complete!");
     }
-    
 }

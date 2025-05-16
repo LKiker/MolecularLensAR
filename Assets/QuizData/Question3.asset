@@ -26,3 +26,4 @@ MonoBehaviour:
   correctAnswerIndex: 1
   questionAudio: {fileID: 8300000, guid: 6935983cb1dd0d444999d935c6e64a7e, type: 3}
   correctAnswerAudio: {fileID: 8300000, guid: 4f7daf71fd7ca2f4d86f405bcc3b8d83, type: 3}
+  proteinName: 1MH1

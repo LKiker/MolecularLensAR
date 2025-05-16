@@ -24,3 +24,4 @@ MonoBehaviour:
   correctAnswerIndex: 2
   questionAudio: {fileID: 8300000, guid: 19c01efeed2215641902e8dfe9fd4bde, type: 3}
   correctAnswerAudio: {fileID: 8300000, guid: c0b8fc31881dde849aa56fbfaf2e2528, type: 3}
+  proteinName: 1MH1_folds

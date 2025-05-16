@@ -61,6 +61,9 @@ TagManager:
   - C
   - G
   - T
+  - 1MH1_folds
+  - Folding Patterns
+  - 1MH1 Folds
   layers:
   - Default
   - TransparentFX

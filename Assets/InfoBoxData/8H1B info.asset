@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa96209bda5496429135909f22042ac, type: 3}
   m_Name: 8H1B info
   m_EditorClassIdentifier: 
+  tag: 8H1B
   PDBName: 8H1B
   PDBinformation:
   - 8H1B represents the high-resolution crystal structure of the MnmM methyltransferase

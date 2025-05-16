@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fa96209bda5496429135909f22042ac, type: 3}
-  m_Name: 1MH1 info
+  m_Name: 1MH1 Folds info
   m_EditorClassIdentifier: 
-  tag: 1MH1
-  PDBName: 1MH1
+  tag: 1MH1 Folds
+  PDBName: 1MH1 Folds
   PDBinformation:
   - 1MH1 structure is a complex of DNA plymerase 1 (POL 1) with a DNA fragment.
   - The active site of 1MH1 is more open and flexible compared to other polymerases.

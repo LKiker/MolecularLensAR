@@ -1,4 +1,4 @@
-/* ProteinLensAR - ProteinController.cs
+/* Molecule Lens AR - ProteinController.cs
  * 
  * Functions that control the selection, highlight, and control of
  * the current protein structure.
@@ -14,239 +14,209 @@ using UnityEngine.Events;
 
 public class ProteinController : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private GameObject backButton;
-    public GameObject proteinSelection;
-    private Stack<GameObject> selections = new Stack<GameObject>();
-    public int selectionMode { get; private set; } = 0;
-    UIController uiController;
-    public Material highlightMaterial;
-    private Material originalMaterial;
+    [SerializeField] private TutorialManager tutorialManager;
+    [SerializeField] private UIController uiController;
+    [SerializeField] private Material highlightMaterial;
 
+    [Header("Initial Selection")]
+    public GameObject proteinSelection;
+
+    private Stack<GameObject> selections = new Stack<GameObject>();
+    private Material originalMaterial;
+    public int selectionMode { get; private set; } = 0;
+    public bool isGrabbing = false;
 
     // Function to initialize the hierarchy
     private void Start()
     {
-        uiController = GameObject.FindGameObjectWithTag("UIController").GetComponent<UIController>();
         // Initialize default protein
         Select(proteinSelection);
     }
 
-
-    // Function to select a child and isolate its own children
+    // Selects and displays a GameObject in the protein hierarchy
     public void Select(GameObject selectedObject)
     {
+        if (selectedObject == null) 
+            return;
+
         // If parent is main proteinModel game object
-        if (selectedObject.transform.parent == gameObject.transform)
-        {
+        if (selectedObject.transform.parent == transform)
             // Go back to first selectionMode
             selectionMode = 0;
-        }
-
-        //// Stop at last selection mode
-        //if (selectionMode > 3 || (selectionMode > 2 && uiController.viewType == 2))
-        //    return;
 
         // Get max depth of model layers
+        var settings = selectedObject.GetComponent<ModelSettings>();
         int maxDepth = 3;
-        ModelSettings settings = selectedObject.GetComponent<ModelSettings>();
         if (settings != null)
             maxDepth = settings.maxSelectionDepth;
         if (selectionMode > maxDepth)
             return;
 
-        // Set parent if parent exists
-        Transform parent;
-        if (selectedObject.transform.parent != null)
+        // Deactivate siblings
+        Transform parent = selectedObject.transform.parent;
+        if (parent != null)
         {
-            parent = selectedObject.transform.parent;
-
-            // Deactivate all siblings of the selectedObject (children of parent)
             foreach (Transform sibling in parent)
-            {
-                sibling.gameObject.SetActive(false); // Hide sibling GameObjects
-            }
+                sibling.gameObject.SetActive(false);
         }
-
-        // Activate the selected object but hide its components from interaction
         selectedObject.SetActive(true);
-        if (selectionMode < maxDepth) // if not at last selectionMode
+
+        // Handle internal component visibility
+        if (selectionMode < maxDepth)
         {
-            if (selectionMode > 0 && uiController.viewType == 2) // if not folding patterns
-            {
-                Debug.Log($"viewType: {uiController.viewType}; selectionMode: {selectionMode}");
-                toggleComponents(selectedObject.transform, true);
-            }
-            else
-                toggleComponents(selectedObject.transform, false);
+            bool enableComponents = selectionMode > 0 && uiController.viewType == 2;
+            toggleComponents(selectedObject.transform, enableComponents);
         }
 
-        // Activate the children of the selected object
+        // Activate children
         foreach (Transform child in selectedObject.transform)
-        {
-            child.gameObject.SetActive(true); // Show children GameObjects
-        }
+            child.gameObject.SetActive(true);
 
-        // Store the current selection for future reset on stack
         selections.Push(selectedObject);
-
-        // Increment Selection Mode and display back button
         selectionMode++;
-        if (selectionMode > 1)
+
+        if (selectionMode > 1 && backButton != null)
             backButton.SetActive(true);
 
         // Display Selection on UI
         proteinSelection = selectedObject;
         string molType = settings.moleculeType;
         uiController.displaySelection(molType);
-
-        //// Update the selection mode display
-        //uiController.updateCurrentSelectionMode();
-    }
-
-    // Select tutorial 1 sphere to go to tutorial 1 success dialog
-    public void selectSphere()
-    {
-        uiController.enableTutorial1Success();
-    }
-
-    // Toggles components of object but keeps it active
-    private void toggleComponents(Transform obj, bool state)
-    {
-        // Toggle mesh renderer
-        MeshRenderer objRenderer = obj.GetComponent<MeshRenderer>();
-        if (objRenderer != null)
-            objRenderer.enabled = state;
-        // Toggle rest of components
-        MonoBehaviour[] comps = obj.GetComponents<MonoBehaviour>();
-        foreach (MonoBehaviour comp in comps)
-        {
-            comp.enabled = state;
-        }
-        // Ensure outline stays off
-        var outline = obj.GetComponent<Outline>();
-        if (outline != null)
-            outline.enabled = false;
     }
 
 
-    // Function to go back one selection
+    // Goes back one level in the selection stack
     public void revertSelection()
     {
         // Check if there are previous selections
         if (selections.Count == 0)
         {
-            Debug.LogWarning($"No previous selections");
+            Debug.LogWarning("No previous selections to revert to.");
             return;
         }
-        else
+
+        GameObject previousSelection = selections.Pop();
+
+        // Deactivate all children of the current selection
+        foreach (Transform child in previousSelection.transform)
+            child.gameObject.SetActive(false);
+
+        // Get the parent of the current selection
+        Transform parent = previousSelection.transform.parent;
+        if (parent != null)
         {
-            GameObject previousSelection = selections.Pop();
-
-            // Deactivate all children of the current selection
-            foreach (Transform child in previousSelection.transform)
-            {
-                child.gameObject.SetActive(false);
-            }
-
-            // Get the parent of the current selection
-            Transform parent = previousSelection.transform.parent;
-
-            // Display Selection on UI
             proteinSelection = parent.gameObject;
             uiController.displaySelection();
 
             // Reactivate all siblings
             foreach (Transform sibling in parent)
-            {
                 sibling.gameObject.SetActive(true);
-            }
 
             // Reactivate components of previousSelection
             toggleComponents(previousSelection.transform, true);
-
-            // Clear the current selection
-            previousSelection = null;
-
-            // Decrement Selection Mode
-            selectionMode--;
-            if (selectionMode <= 1)
-                backButton.SetActive(false);
-
-            //// Update the selection mode display
-            //uiController.updateCurrentSelectionMode();
         }
+
+        // Decrement Selection Mode
+        selectionMode--;
+        if (selectionMode <= 1)
+            backButton.SetActive(false);
+    }
+
+    // Ensures updating the PDBinfo looks at topmost object tag
+    public string GetRootTag()
+    {
+        if (proteinSelection == null)
+            return "";
+
+        Transform current = proteinSelection.transform;
+
+        // Traverse up until we reach a direct child of the root, ProteinModel
+        while (current.parent != null && current.parent != transform)
+        {
+            current = current.parent;
+        }
+
+        return current.tag;
     }
 
 
-    //// Find view type variant of same protein
-    //public void findSimilarProtein(GameObject protein)
-    //{
-    //    // Set parent if parent exists
-    //    Transform parent;
-    //    if (protein.transform.parent != null)
-    //    {
-    //        parent = protein.transform.parent;
-
-    //        // Activate all siblings of the protein (children of parent)
-    //        foreach (Transform sibling in parent)
-    //        {
-    //            sibling.gameObject.SetActive(true); // Show sibling GameObjects
-    //        }
-    //    }
-
-    //    // Tag of found protein should be same as current protein
-    //    String tagToFind = protein.tag;
-    //    // Deactivate protein to avoid finding itself
-    //    protein.SetActive(false);
-    //    GameObject foundProtein = GameObject.FindGameObjectWithTag(tagToFind);
-
-    //    // Deactivate all siblings of the protein (children of parent)
-    //    parent = protein.transform.parent;
-    //    foreach (Transform sibling in parent)
-    //    {
-    //        sibling.gameObject.SetActive(false); // Hide sibling GameObjects
-    //    }
-    //    foundProtein.SetActive(true); // ensure found protein is active 
-
-    //    // Select (show) found protein for manipulation
-    //    Select(foundProtein);
-    //}
-
-
-    // Highlight object
+    // Highlights an object visually and in UI
     public void highlight(GameObject hoveredMesh)
     {
+        if (hoveredMesh == null)
+            return;
+
+        // Suppress highlight to fix color change bug
+        var suppressor = hoveredMesh.GetComponent<SuppressHighlightOnGrabAttempt>();
+        if (suppressor != null && suppressor.suppressHighlight)
+            return;
+
         // Outline mesh
         var outline = hoveredMesh.GetComponent<Outline>();
-        outline.enabled = true;
+        if (outline != null) outline.enabled = true;
+
         // Change material to a highlight material
         var renderer = hoveredMesh.GetComponent<Renderer>();
         if (renderer != null)
         {
             originalMaterial = renderer.material;
-            renderer.material = highlightMaterial; 
+            renderer.material = highlightMaterial;
         }
-
         // Display hovering element on UI
         uiController.updateHoveringElement(hoveredMesh.tag);
     }
 
-
-    // Unhighlight object
+    // Removes highlight from object
     public void unhighlight(GameObject hoveredMesh)
     {
+        if (hoveredMesh == null) 
+            return;
+
+        // Suppress highlight to fix color change bug
+        var suppressor = hoveredMesh.GetComponent<SuppressHighlightOnGrabAttempt>();
+        if (suppressor != null && suppressor.suppressHighlight)
+            return;
+
         // Remove outline
         var outline = hoveredMesh.GetComponent<Outline>();
-        outline.enabled = false;
+        if (outline != null) outline.enabled = false;
+
         // Change material back to original
         var renderer = hoveredMesh.GetComponent<Renderer>();
         if (renderer != null && originalMaterial != null)
         {
-            renderer.material = originalMaterial; 
+            renderer.material = originalMaterial;
         }
 
         // Remove hovering element from UI
         uiController.updateHoveringElement("");
+
+    }
+
+    // Enables tutorial success when selecting the sphere
+    public void selectSphere()
+    {
+        tutorialManager.EnableTutorial1Success();
+    }
+
+    // Enables/disables visual components on a GameObject
+    private void toggleComponents(Transform obj, bool state)
+    {
+        // Toggle mesh renderer
+        var meshRenderer = obj.GetComponent<MeshRenderer>();
+        if (meshRenderer != null)
+            meshRenderer.enabled = state;
+
+        // Toggle rest of components
+        foreach (var comp in obj.GetComponents<MonoBehaviour>())
+            comp.enabled = state;
+
+        // Ensure outline stays off
+        var outline = obj.GetComponent<Outline>();
+        if (outline != null)
+            outline.enabled = false;
     }
 }

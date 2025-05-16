@@ -1,4 +1,4 @@
-/* ProteinLensAR - DisableRayWhileGrabbing.cs
+/* Molecule Lens AR - DisableRayWhileGrabbing.cs
  * 
  * Ensures the ray interactors while grabbing an object will be
  * disabled so the Protein is not highlighted while doing transforms.
@@ -12,6 +12,7 @@ using Oculus.Interaction;
 
 public class DisableRayWhileGrabbing : MonoBehaviour
 {
+    [SerializeField] private ProteinController proteinController;
     public GameObject[] rayInteractors;
     private Grabbable grabbable;
 
@@ -46,10 +47,18 @@ public class DisableRayWhileGrabbing : MonoBehaviour
         {
             case PointerEventType.Select: // Grab starts
                 setRayInteractorsActive(false);
+                if (proteinController != null)
+                {
+                    proteinController.isGrabbing = true;
+                }
                 break;
 
             case PointerEventType.Unselect: // Grab ends
                 setRayInteractorsActive(true);
+                if (proteinController != null)
+                {
+                    proteinController.isGrabbing = false;
+                }
                 break;
         }
     }

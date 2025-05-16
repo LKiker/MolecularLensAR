@@ -26,3 +26,4 @@ MonoBehaviour:
   correctAnswerIndex: 1
   questionAudio: {fileID: 8300000, guid: 0ed5417a60bd79f4faaad4e65ad23879, type: 3}
   correctAnswerAudio: {fileID: 8300000, guid: 5b62ee30e5550744cb2e74e23d309c85, type: 3}
+  proteinName: 1BNA

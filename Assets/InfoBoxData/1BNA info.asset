@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa96209bda5496429135909f22042ac, type: 3}
   m_Name: 1BNA info
   m_EditorClassIdentifier: 
+  tag: 1BNA
   PDBName: 1BNA
   PDBinformation:
   - The 1BNA structure represents the B-form of double-stranded DNA, often referred

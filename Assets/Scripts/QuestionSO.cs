@@ -11,4 +11,6 @@ public class QuestionSO : ScriptableObject
     public int correctAnswerIndex;
     public AudioClip questionAudio;
     public AudioClip correctAnswerAudio;
+    public string proteinName;
+
 }
