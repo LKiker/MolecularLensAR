@@ -9,4 +9,4 @@ How to Install on Meta Quest 3:
 4. In SideQuest, click Install APK from file
 5. Select MolecularLensAR.apk
 3. To launch on your Quest, go to:
-   - Apps → Unknown Sources → Molecule Lens AR
+   - Apps → Unknown Sources → Molecular Lens AR
