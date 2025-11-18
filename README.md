@@ -18,7 +18,7 @@ The goal of the project is to make molecular structures intuitive to understand 
 - Protein models can be grabbed, rotated, and scaled directly with hand gestures.
 - Designed for intuitive mixed-reality manipulation.
 <div align="center">
-  <img src="Assets/Media/grab.gif" width="700" />
+  <img src="Assets/Media/grab.gif" width="600" />
 </div>
 
 ### 2. Click-Into-Model Exploration
@@ -26,7 +26,7 @@ The goal of the project is to make molecular structures intuitive to understand 
 - Each selection updates the active model state and highlights the chosen structure.
 - Enables clear navigation of complex molecular hierarchies.
 <div align="center">
-  <img src="Assets/Media/highlight.gif" width="700" />
+  <img src="Assets/Media/highlight.gif" width="600" />
 </div>
 
 ### 3. Always-Visible Information Panel
@@ -34,7 +34,7 @@ The goal of the project is to make molecular structures intuitive to understand 
 - Automatically updates based on the current model layer or component selected.
 - Displays structural names, details, and simplified biological descriptions.
 <div align="center">
-  <img src="Assets/Media/info.gif" width="700" />
+  <img src="Assets/Media/info.gif" width="600" />
 </div>
 
 ### 4. Interactive Tutorial
@@ -42,7 +42,7 @@ The goal of the project is to make molecular structures intuitive to understand 
 - Covers grabbing, rotating, scaling, selecting components, and using the UI.
 - Ensures first-time VR users can quickly understand the interface and functionality.
 <div align="center">
-  <img src="Assets/Media/tutorial.gif" width="700" />
+  <img src="Assets/Media/tutorial.gif" width="600" />
 </div>
 
 ### 5. Instant-Feedback Multiple-Choice Quiz
@@ -51,7 +51,7 @@ The goal of the project is to make molecular structures intuitive to understand 
 - No score tracking—focused entirely on exploration and understanding.
 - Fully voiced audio.
 <div align="center">
-  <img src="Assets/Media/quiz.gif" width="700" />
+  <img src="Assets/Media/quiz.gif" width="600" />
 </div>
 
 
