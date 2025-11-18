@@ -5,10 +5,6 @@ It places a 3D protein model into the user’s physical environment and enables 
 
 The goal of the project is to make molecular structures intuitive to understand through immersive spatial visualization.
 
-<div align="center">
-  <img src="Assets/Media/molecular_lens_demo.gif" width="700" />
-</div>
-
 ---
 
 ## Features
