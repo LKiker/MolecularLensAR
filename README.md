@@ -13,35 +13,53 @@ The goal of the project is to make molecular structures intuitive to understand 
 
 ## Features
 
-### 1. Click-Into-Model Exploration
-- Users can select individual parts of the protein to explore deeper structural layers.
-- Each selection updates the model state and highlights the currently active region.
-- Designed to make complex molecular structures easier to follow.
+### 1. Hand-Based Grab, Rotate, and Scale
+- Users interact naturally using hand tracking—no controllers required.
+- Protein models can be grabbed, rotated, and scaled directly with hand gestures.
+- Designed for intuitive mixed-reality manipulation.
+<div align="center">
+  <img src="Assets/Media/grab.gif" width="700" />
+</div>
 
-### 2. Always-Visible Information Panel
-- The information panel remains open at all times.
-- Automatically updates based on the user’s current selection or model layer.
-- Displays names, details, and simple descriptive information.
+### 2. Click-Into-Model Exploration
+- Users can select individual model components to explore progressively deeper layers.
+- Each selection updates the active model state and highlights the chosen structure.
+- Enables clear navigation of complex molecular hierarchies.
+<div align="center">
+  <img src="Assets/Media/highlight.gif" width="700" />
+</div>
 
-### 3. Guided Mixed-Reality Tutorial
-- A step-by-step onboarding sequence teaches:
-  - How to grab, rotate, and scale the model
-  - How to select different structures
-  - How the information panel works
-  - How to use quiz mode
-- Ensures VR beginners can interact without confusion.
+### 3. Always-Visible Information Panel
+- The information panel remains on screen at all times for uninterrupted learning.
+- Automatically updates based on the current model layer or component selected.
+- Displays structural names, details, and simplified biological descriptions.
+<div align="center">
+  <img src="Assets/Media/info.gif" width="700" />
+</div>
 
-### 4. Multiple-Choice Quiz Mode
-- Users answer conceptual questions through on-screen multiple-choice buttons.
-- Provides immediate correct/incorrect feedback.
-- Does not track cumulative score; designed for guided learning.
+### 4. Interactive Tutorial
+- A built-in, step-by-step tutorial guides new users through core hand-based interactions.
+- Covers grabbing, rotating, scaling, selecting components, and using the UI.
+- Ensures first-time VR users can quickly understand the interface and functionality.
+<div align="center">
+  <img src="Assets/Media/tutorial.gif" width="700" />
+</div>
+
+### 5. Instant-Feedback Multiple-Choice Quiz
+- Users answer questions using on-screen multiple-choice options.
+- Provides immediate feedback to reinforce learning (correct or incorrect).
+- No score tracking—focused entirely on exploration and understanding.
+- Fully voiced audio.
+<div align="center">
+  <img src="Assets/Media/quiz.gif" width="700" />
+</div>
+
 
 ---
 
 ## Technology
 - Unity (C#)
 - Meta XR SDK
-- XR Interaction Toolkit
 - Mixed Reality Passthrough
 - Universal Render Pipeline (URP)
 
